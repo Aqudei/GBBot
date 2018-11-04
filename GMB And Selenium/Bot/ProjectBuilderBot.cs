@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Effects;
 using GMB_And_Selenium.Models;
+using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -17,6 +18,8 @@ namespace GMB_And_Selenium.Bot
 {
     class ProjectBuilderBot
     {
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
         private readonly ProjectData _projectData;
         private readonly ChromeDriver _driver;
         private readonly WebDriverWait _wait;
@@ -99,11 +102,17 @@ namespace GMB_And_Selenium.Bot
         private void ProcessLocationPages()
         {
             // Select Country
+            _logger.Info("Trying InputCountry");
             if (!TryInput(InputCountry))
+            {
                 throw new Exception("Unable to select country");
+            }
+
+
 
             Thread.Sleep(2);
 
+            _logger.Info("Trying InputZipCode");
             if (!TryInput(InputZipCode))
             {
                 Debug.WriteLine("Input Failure : Zip Code");
@@ -119,16 +128,19 @@ namespace GMB_And_Selenium.Bot
             //    Debug.WriteLine("Input Failure : Suburb");
             //}
 
+            _logger.Info("Trying InputCity");
             if (!TryInput(InputCity))
             {
                 Debug.WriteLine("Input Failure : City");
             }
 
+            _logger.Info("Trying InputState");
             if (!TryInput(InputState))
             {
                 throw new Exception("Unable to select state");
             }
 
+            _logger.Info("Trying InputStreetAddress");
             if (!TryInput(InputStreetAddress))
             {
                 Debug.WriteLine("Input Failure : StreetName");
@@ -251,8 +263,11 @@ namespace GMB_And_Selenium.Bot
                 Thread.Sleep(1000);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                _logger.Error("Error in <TryInput>");
+                _logger.Error(ex);
+
                 return false;
             }
 
@@ -312,14 +327,23 @@ namespace GMB_And_Selenium.Bot
 
         public void Start()
         {
-            ProcessLoginPage();
-            ProcessBusinessNamePage();
-            ProcessLocationPages();
-            ProcessIfMapSelect();
-            ConfirmLocationPages();
-            ProcessBusinessCategoryPage();
-            ProcessContactDetailsPage();
-            ProcessFinishAndVerifyPage();
+            try
+            {
+                ProcessLoginPage();
+                ProcessBusinessNamePage();
+                ProcessLocationPages();
+                ProcessIfMapSelect();
+                ConfirmLocationPages();
+                ProcessBusinessCategoryPage();
+                ProcessContactDetailsPage();
+                ProcessFinishAndVerifyPage();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                Debug.WriteLine(ex);
+                throw;
+            }
         }
 
         private void ProcessIfMapSelect()
@@ -329,9 +353,10 @@ namespace GMB_And_Selenium.Bot
                 _wait.Until(ExpectedConditions.TextToBePresentInElementLocated(By.TagName("p"), "Drag and zoom the map and position the marker on the exact spot where your business is located."));
                 ClickNext();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // ignored
+                _logger.Error("Error from <ProcessIfMapSelect>");
+                _logger.Error(ex);
             }
         }
 
@@ -350,8 +375,11 @@ namespace GMB_And_Selenium.Bot
                 element.Click();
                 ClickNext();
             }
-            catch (Exception)
-            { }
+            catch (Exception ex)
+            {
+                _logger.Error("Error from <ConfirmLocationPages>");
+                _logger.Error(ex);
+            }
             finally
             {
                 //WaitClickNext();

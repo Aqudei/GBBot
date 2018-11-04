@@ -9,7 +9,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
         mc:Ignorable="d" 
-        Title="MainView" Height="450" Width="800" WindowState="Maximized">
+        Title="GBBot UNO" Height="450" Width="800" WindowState="Maximized">
     <!--<i:Interaction.Behaviors>
         <behaviours:BorderlessWindowBehavior/>
     </i:Interaction.Behaviors>-->
