@@ -32,6 +32,9 @@ namespace GMB_And_Selenium.Views
 
             if (e.PropertyName.ToUpper().Contains("BOOLEAN"))
                 e.Cancel = true;
+
+            if (e.PropertyName.ToUpper().Contains("PROJECTDATA"))
+                e.Cancel = true;
         }
 
         private void ImportProjects_Copy_Click(object sender, RoutedEventArgs e)

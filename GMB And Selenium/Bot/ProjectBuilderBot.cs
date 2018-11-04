@@ -72,12 +72,11 @@ namespace GMB_And_Selenium.Bot
 
         private void ProcessBusinessNamePage()
         {
-            _wait.Until(ExpectedConditions.TitleIs("Google Account"));
+            _wait.Until(ExpectedConditions.TitleContains("Account"));
             _driver.Navigate().GoToUrl("https://business.google.com/create?hl=en");
 
             if (!TryInput(TypeBusinessName))
                 throw new Exception("Unable to type business name");
-
 
         }
 
@@ -316,10 +315,24 @@ namespace GMB_And_Selenium.Bot
             ProcessLoginPage();
             ProcessBusinessNamePage();
             ProcessLocationPages();
+            ProcessIfMapSelect();
             ConfirmLocationPages();
             ProcessBusinessCategoryPage();
             ProcessContactDetailsPage();
             ProcessFinishAndVerifyPage();
+        }
+
+        private void ProcessIfMapSelect()
+        {
+            try
+            {
+                _wait.Until(ExpectedConditions.TextToBePresentInElementLocated(By.TagName("p"), "Drag and zoom the map and position the marker on the exact spot where your business is located."));
+                ClickNext();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private void ProcessFinishAndVerifyPage()

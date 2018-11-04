@@ -222,7 +222,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Vegas GMBs.csv" />
+    <None Include="data.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

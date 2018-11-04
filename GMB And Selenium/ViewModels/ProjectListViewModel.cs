@@ -47,7 +47,7 @@ namespace GMB_And_Selenium.ViewModels
         {
         }
 
-        public async void StartBot()
+        public void StartBot()
         {
             foreach (var projectItemViewModel in Projects)
             {
@@ -55,7 +55,7 @@ namespace GMB_And_Selenium.ViewModels
                     continue;
 
                 var bot = new ProjectBuilderBot(projectItemViewModel.ProjectData);
-                await bot.StartAsync();
+                bot.StartAsync();
                 break;
             }
         }

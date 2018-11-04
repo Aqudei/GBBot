@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMB And Selenium", "GMB And Selenium\GMB And Selenium.csproj", "{277DA5D5-75D1-4194-91AC-BEDE98BFA201}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GBBotInstaller", "GBBotInstaller\GBBotInstaller.vdproj", "{6CAC3662-CA13-48ED-B474-E8EFAB6B6E6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{277DA5D5-75D1-4194-91AC-BEDE98BFA201}.Release|Any CPU.Build.0 = Release|Any CPU
 		{277DA5D5-75D1-4194-91AC-BEDE98BFA201}.Release|x86.ActiveCfg = Release|x86
 		{277DA5D5-75D1-4194-91AC-BEDE98BFA201}.Release|x86.Build.0 = Release|x86
+		{6CAC3662-CA13-48ED-B474-E8EFAB6B6E6B}.Debug|Any CPU.ActiveCfg = Debug
+		{6CAC3662-CA13-48ED-B474-E8EFAB6B6E6B}.Debug|x86.ActiveCfg = Debug
+		{6CAC3662-CA13-48ED-B474-E8EFAB6B6E6B}.Release|Any CPU.ActiveCfg = Release
+		{6CAC3662-CA13-48ED-B474-E8EFAB6B6E6B}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
