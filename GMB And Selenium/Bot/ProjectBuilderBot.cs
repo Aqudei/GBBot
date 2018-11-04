@@ -33,29 +33,24 @@ namespace GMB_And_Selenium.Bot
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
 
-        public void Terminate()
-        {
-            _driver.Quit();
-        }
+        //public void Terminate()
+        //{
+        //    _driver.Quit();
+        //}
 
-        private void DoLogin()
+        private void ProcessLoginPage()
         {
             _driver.Navigate().GoToUrl("https://accounts.google.com/ServiceLogin?continue=https://accounts.google.com/ManageAccount&rip=1&nojavascript=1&hl=en#identifier");
-            //if (CheckIfAutoSelectedUserAccount())
-            //{
-            //    GetOut();
-            //}
-
-            try
-            {
-                TypeCredentials();
-                WhereAreYouLocatedPage();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-
+            var element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Email")));
+            element.Click();
+            element.SendKeys(_projectData.Email);
+            Thread.Sleep(2000);
+            element.SendKeys(Keys.Enter);
+            element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Passwd")));
+            element.Click();
+            element.SendKeys(_projectData.Password);
+            Thread.Sleep(2000);
+            element.SendKeys(Keys.Enter);
         }
 
         private void SelectItem(string xpathSelector, string xpathItem, string initial)
@@ -75,13 +70,35 @@ namespace GMB_And_Selenium.Bot
             //child.Click();
         }
 
-        private void WhereAreYouLocatedPage()
+        private void ProcessBusinessNamePage()
         {
+            _wait.Until(ExpectedConditions.TitleIs("Google Account"));
             _driver.Navigate().GoToUrl("https://business.google.com/create?hl=en");
 
             if (!TryInput(TypeBusinessName))
                 throw new Exception("Unable to type business name");
 
+
+        }
+
+        private void ProcessContactDetailsPage()
+        {
+            if (!TryInput(InputContactDetails))
+            {
+                throw new Exception("Unable to input contact details.");
+            }
+        }
+
+        private void ProcessBusinessCategoryPage()
+        {
+            if (!TryInput(InputBusinessCategory))
+            {
+                throw new Exception("Unable to input business category.");
+            }
+        }
+
+        private void ProcessLocationPages()
+        {
             // Select Country
             if (!TryInput(InputCountry))
                 throw new Exception("Unable to select country");
@@ -124,18 +141,7 @@ namespace GMB_And_Selenium.Bot
             //}
 
             ClickNext();
-            WaitClickNext();
-
-            if (!TryInput(InputBusinessCategory))
-            {
-                throw new Exception("Unable to input business category.");
-            }
-
-            if (!TryInput(InputContactDetails))
-            {
-                throw new Exception("Unable to input contact details.");
-            }
-            
+            //WaitClickNext();
         }
 
         private void InputContactDetails()
@@ -273,21 +279,8 @@ namespace GMB_And_Selenium.Bot
 
         private void TypeCredentials()
         {
-            var element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Email")));
-            element.Click();
-            element.SendKeys(_projectData.Email);
-            //var next = _wait.Until(ExpectedConditions.ElementExists(By.Id("identifierNext")));
-            //next.Click();
-            Thread.Sleep(2000);
-            element.SendKeys(Keys.Enter);
-            element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Passwd")));
-            element.Click();
-            element.SendKeys(_projectData.Password);
-            Thread.Sleep(2000);
-            element.SendKeys(Keys.Enter);
-            //next = _wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@id='passwordNext']/content/span")));
-            //next.Click();
-            _wait.Until(ExpectedConditions.TitleIs("Google Account"));
+
+
         }
 
         private void GetOut()
@@ -320,9 +313,37 @@ namespace GMB_And_Selenium.Bot
 
         public void Start()
         {
-            DoLogin();
+            ProcessLoginPage();
+            ProcessBusinessNamePage();
+            ProcessLocationPages();
+            ConfirmLocationPages();
+            ProcessBusinessCategoryPage();
+            ProcessContactDetailsPage();
+            ProcessFinishAndVerifyPage();
         }
 
+        private void ProcessFinishAndVerifyPage()
+        {
+            _wait.Until(ExpectedConditions.TitleContains("Finish and verify this business"));
+            ClickFinish();
+        }
+
+        private void ConfirmLocationPages()
+        {
+            try
+            {
+                _wait.Until(ExpectedConditions.TitleContains("Is this your business?"));
+                var element = _driver.FindElementByXPath("(//div[@role='radio'])[last()]");
+                element.Click();
+                ClickNext();
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                //WaitClickNext();
+            }
+        }
     }
 }
 
