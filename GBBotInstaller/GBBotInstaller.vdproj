@@ -784,24 +784,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5FE66541D6C915F1C7F9227BA12C2772"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FAEC1E5152A17597373D2F1358993BE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C608B4C4101DDB1607E252A00836DFDA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_6D71C73E26524641A3CB9F21E3B60914"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -863,6 +845,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_78A79EB251543A04E286B429C4C7B3CB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FAEC1E5152A17597373D2F1358993BE9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -947,6 +935,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_963E206B9AF9409743A780974E47D86F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C608B4C4101DDB1607E252A00836DFDA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1249,6 +1243,12 @@
         "OwnerKey" = "8:_F23F39D810E3B26B908E584874B6D8C1"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5FE66541D6C915F1C7F9227BA12C2772"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -1299,6 +1299,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -3924,15 +3940,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GBBot"
-        "ProductCode" = "8:{2830C956-8E65-4096-B7D9-EBA7BB9AF1B3}"
-        "PackageCode" = "8:{62EEF733-FE19-4969-9384-76C2735ECC6E}"
+        "ProductCode" = "8:{B9934BAC-7512-463D-84D6-4A612D4C2299}"
+        "PackageCode" = "8:{C85DAD31-0BC1-4DAC-85A3-820199FB16FA}"
         "UpgradeCode" = "8:{6341500A-921E-42A6-8465-797E5D736B97}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.3"
+        "ProductVersion" = "8:1.0.7"
         "Manufacturer" = "8:Aqudei"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -4460,7 +4476,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6D71C73E26524641A3CB9F21E3B60914"
             {
-            "SourcePath" = "8:..\\GMB And Selenium\\obj\\x86\\Release\\GMB And Selenium.exe"
+            "SourcePath" = "8:..\\GMB And Selenium\\obj\\x86\\Debug\\GMB And Selenium.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9FEE260547CC4B4193A9E9324F3090DC"

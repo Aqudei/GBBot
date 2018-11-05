@@ -36,24 +36,35 @@ namespace GMB_And_Selenium.Bot
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
 
-        //public void Terminate()
-        //{
-        //    _driver.Quit();
-        //}
+        public void Terminate()
+        {
+            _logger.Info("Terminating Selenium driver...");
+            _driver.Quit();
+        }
 
         private void ProcessLoginPage()
         {
-            _driver.Navigate().GoToUrl("https://accounts.google.com/ServiceLogin?continue=https://accounts.google.com/ManageAccount&rip=1&nojavascript=1&hl=en#identifier");
-            var element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Email")));
-            element.Click();
-            element.SendKeys(_projectData.Email);
-            Thread.Sleep(2000);
-            element.SendKeys(Keys.Enter);
-            element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Passwd")));
-            element.Click();
-            element.SendKeys(_projectData.Password);
-            Thread.Sleep(2000);
-            element.SendKeys(Keys.Enter);
+            try
+            {
+                _driver.Navigate().GoToUrl("https://accounts.google.com/ServiceLogin?continue=https://accounts.google.com/ManageAccount&rip=1&nojavascript=1&hl=en#identifier");
+                var element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Email")));
+                element.Click();
+                element.SendKeys(_projectData.Email);
+                Thread.Sleep(2000);
+                element.SendKeys(Keys.Enter);
+                element = _wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Passwd")));
+                element.Click();
+                element.SendKeys(_projectData.Password);
+                Thread.Sleep(2000);
+                element.SendKeys(Keys.Enter);
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Error in <ProcessLoginPage>");
+                _logger.Error(e);
+                Debug.WriteLine(e);
+                throw;
+            }
         }
 
         private void SelectItem(string xpathSelector, string xpathItem, string initial)
@@ -61,98 +72,138 @@ namespace GMB_And_Selenium.Bot
             var element = _driver.FindElementByXPath(xpathSelector);
             //element.Click();
             _driver.ExecuteScript("arguments[0].click();", element);
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
 
             var builder = new Actions(_driver);
-            builder.SendKeys(initial);
+            builder.SendKeys(initial.Trim());
             builder.Perform();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             var child = _driver.FindElementByXPath(xpathItem);
             _driver.ExecuteScript("arguments[0].click();", child);
             //child.Click();
+            Thread.Sleep(2000);
         }
 
         private void ProcessBusinessNamePage()
         {
-            _wait.Until(ExpectedConditions.TitleContains("Account"));
-            _driver.Navigate().GoToUrl("https://business.google.com/create?hl=en");
+            try
+            {
+                _wait.Until(ExpectedConditions.TitleContains("Account"));
+                _driver.Navigate().GoToUrl("https://business.google.com/create?hl=en");
 
-            if (!TryInput(TypeBusinessName))
-                throw new Exception("Unable to type business name");
+                if (!TryInput(TypeBusinessName))
+                    throw new Exception("Unable to type business name");
 
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error in <ProcessBusinessNamePage>");
+                _logger.Error(ex);
+                Debug.WriteLine(ex);
+                throw;
+            }
         }
 
         private void ProcessContactDetailsPage()
         {
-            if (!TryInput(InputContactDetails))
+            try
             {
-                throw new Exception("Unable to input contact details.");
+                if (!TryInput(InputContactDetails))
+                {
+                    throw new Exception("Unable to input contact details.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error in <ProcessContactDetailsPage>");
+                _logger.Error(ex);
+                Debug.WriteLine(ex);
+                throw;
             }
         }
 
         private void ProcessBusinessCategoryPage()
         {
-            if (!TryInput(InputBusinessCategory))
+            try
             {
-                throw new Exception("Unable to input business category.");
+                if (!TryInput(InputBusinessCategory))
+                {
+                    throw new Exception("Unable to input business category.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error in <ProcessBusinessCategoryPage>");
+                _logger.Error(ex);
+                Debug.WriteLine(ex);
+                throw;
             }
         }
 
         private void ProcessLocationPages()
         {
-            // Select Country
-            _logger.Info("Trying InputCountry");
-            if (!TryInput(InputCountry))
+            try
             {
-                throw new Exception("Unable to select country");
+                _wait.Until(ExpectedConditions.TitleContains("Where are you located?"));
+                // Select Country
+                _logger.Info("Trying InputCountry");
+                if (!TryInput(InputCountry))
+                {
+                    throw new Exception("Input Failure: Country");
+                }
+
+                Thread.Sleep(2);
+
+                _logger.Info("Trying InputZipCode");
+                if (!TryInput(InputZipCode))
+                {
+                    throw new Exception("Input Failure: Zip Code");
+                }
+
+                //if (!TryInput(InputDistrict))
+                //{
+                //    Debug.WriteLine("Input Failure : District");
+                //}
+
+                //if (!TryInput(InputSuburb))
+                //{
+                //    Debug.WriteLine("Input Failure : Suburb");
+                //}
+
+                _logger.Info("Trying InputCity");
+                if (!TryInput(InputCity))
+                {
+                    Debug.WriteLine("Input Failure : City");
+                }
+
+                _logger.Info("Trying InputState");
+                if (!TryInput(InputState))
+                {
+                    throw new Exception("Input Failure: State");
+                }
+
+                _logger.Info("Trying InputStreetAddress");
+                if (!TryInput(InputStreetAddress))
+                {
+                    throw new Exception("Input Failure: Street Address");
+                }
+
+                //if (!TryInput(InputProvince))
+                //{
+                //    throw new Exception("Input Failure : Province");
+                //}
+
+                ClickNext();
+                //WaitClickNext();
             }
-
-
-
-            Thread.Sleep(2);
-
-            _logger.Info("Trying InputZipCode");
-            if (!TryInput(InputZipCode))
+            catch (Exception ex)
             {
-                Debug.WriteLine("Input Failure : Zip Code");
+                _logger.Error("Error in <ProcessLocationPages>");
+                _logger.Error(ex);
+                Debug.WriteLine(ex);
+                throw;
             }
-
-            //if (!TryInput(InputDistrict))
-            //{
-            //    Debug.WriteLine("Input Failure : District");
-            //}
-
-            //if (!TryInput(InputSuburb))
-            //{
-            //    Debug.WriteLine("Input Failure : Suburb");
-            //}
-
-            _logger.Info("Trying InputCity");
-            if (!TryInput(InputCity))
-            {
-                Debug.WriteLine("Input Failure : City");
-            }
-
-            _logger.Info("Trying InputState");
-            if (!TryInput(InputState))
-            {
-                throw new Exception("Unable to select state");
-            }
-
-            _logger.Info("Trying InputStreetAddress");
-            if (!TryInput(InputStreetAddress))
-            {
-                Debug.WriteLine("Input Failure : StreetName");
-            }
-
-            //if (!TryInput(InputProvince))
-            //{
-            //    throw new Exception("Input Failure : Province");
-            //}
-
-            ClickNext();
-            //WaitClickNext();
         }
 
         private void InputContactDetails()
@@ -205,9 +256,10 @@ namespace GMB_And_Selenium.Bot
 
         private void InputCountry()
         {
-            SelectItem("(//div[@aria-label='Country / Region']//div)[1]",
-                            $"//div[contains(@class,'mda pm')]//div[@aria-label='{_projectData.Country}']",
-                            _projectData.Country.Substring(0, 3));
+            var initial = _projectData.Country.Split(" ".ToCharArray())[0];
+
+            SelectItem("(//div[@role='listbox']/div/div)[1]",
+                            $"//div[@role='option' and @aria-label='{_projectData.Country}']", initial);
         }
 
         private void InputSuburb()
@@ -220,10 +272,12 @@ namespace GMB_And_Selenium.Bot
 
         private void InputProvince()
         {
+            var initial = _projectData.Province.Split(" ".ToCharArray())[0];
+
             // Select Province
             SelectItem($"//div[@aria-label='Province']/div[1]",
                 $"//div[contains(@class,'mda pm')]//div[@aria-label='{_projectData.Province}']",
-                _projectData.Province.Substring(0, 3));
+                initial);
         }
 
         private void InputState()
@@ -287,8 +341,6 @@ namespace GMB_And_Selenium.Bot
             businessName.SendKeys(_projectData.BusinessName);
             Thread.Sleep(2000);
             businessName.SendKeys(Keys.Enter);
-            Thread.Sleep(1000);
-            _wait.Until(ExpectedConditions.TitleContains("Where are you located?"));
         }
 
         private void TypeCredentials()
@@ -340,9 +392,11 @@ namespace GMB_And_Selenium.Bot
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                _logger.Error("Task did not complet!");
+
+                Terminate();
                 Debug.WriteLine(ex);
-                throw;
+                //throw;
             }
         }
 
@@ -355,15 +409,24 @@ namespace GMB_And_Selenium.Bot
             }
             catch (Exception ex)
             {
-                _logger.Error("Error from <ProcessIfMapSelect>");
-                _logger.Error(ex);
+                _logger.Error("Error in <ProcessIfMapSelect>\nPossibly skipped Map Select Page.");
             }
         }
 
         private void ProcessFinishAndVerifyPage()
         {
-            _wait.Until(ExpectedConditions.TitleContains("Finish and verify this business"));
-            ClickFinish();
+            try
+            {
+                _wait.Until(ExpectedConditions.TitleContains("Finish and verify this business"));
+                ClickFinish();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Unable to find Finish Button in <ProcessFinishAndVerifyPage>");
+                _logger.Error(ex);
+                Debug.WriteLine(ex);
+                throw;
+            }
         }
 
         private void ConfirmLocationPages()
