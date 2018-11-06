@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,12 @@ namespace GMB_And_Selenium.ViewModels
             _passwordProvider = view as IPasswordProvider;
 
             Username = Properties.Settings.Default.USERNAME;
+        }
+
+        public void OpenLogs()
+        {
+            if (Directory.Exists("logs"))
+                Process.Start("explorer", "logs");
         }
 
         public void SaveSettings()

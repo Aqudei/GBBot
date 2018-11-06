@@ -16,12 +16,15 @@ namespace GMB_And_Selenium.ViewModels
     {
         private readonly CsvUtil _csvUtil;
         private readonly IMapper _mapper;
+        private readonly PhoneNumberProvider _phoneNumberProvider;
         public BindableCollection<ProjectItemViewModel> Projects { get; set; } = new BindableCollection<ProjectItemViewModel>();
 
-        public ProjectListViewModel(CsvUtil csvUtil, IMapper _mapper)
+        public ProjectListViewModel(CsvUtil csvUtil, IMapper mapper,
+            PhoneNumberProvider phoneNumberProvider)
         {
             _csvUtil = csvUtil;
-            this._mapper = _mapper;
+            _mapper = mapper;
+            _phoneNumberProvider = phoneNumberProvider;
         }
 
         public async void ImportProjects()
@@ -54,8 +57,10 @@ namespace GMB_And_Selenium.ViewModels
                 if (!projectItemViewModel.IsFitForBot())
                     continue;
 
-                var bot = new ProjectBuilderBot(projectItemViewModel.ProjectData);
+                var bot = new ProjectBuilderBot(projectItemViewModel.ProjectData, 
+                    _phoneNumberProvider);
                 bot.StartAsync();
+
                 break;
             }
         }

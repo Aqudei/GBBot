@@ -10,7 +10,8 @@
     <Grid>
         <TextBox x:Name="Username" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="348" mah:TextBoxHelper.Watermark="Username"/>
         <PasswordBox x:Name="Password" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Width="348" mah:TextBoxHelper.Watermark="Password"/>
-        <Button x:Name="SaveSettings" Content="Save Settings" HorizontalAlignment="Left" Margin="258,97,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="SaveSettings" Content="Save Settings" HorizontalAlignment="Left" Margin="258,95,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="OpenLogs" Content="Open Logs Folder" HorizontalAlignment="Left" Margin="443,135,0,0" VerticalAlignment="Top" Width="122"/>
 
     </Grid>
 </mah:MetroWindow>

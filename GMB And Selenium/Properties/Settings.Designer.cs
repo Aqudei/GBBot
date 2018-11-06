@@ -46,5 +46,53 @@ namespace GMB_And_Selenium.Properties {
                 this["PASSWORD"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CHROME")]
+        public string BROWSER {
+            get {
+                return ((string)(this["BROWSER"]));
+            }
+            set {
+                this["BROWSER"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("//div[contains(text(),\'deliver goods\')]")]
+        public string DELIVER_GOODS {
+            get {
+                return ((string)(this["DELIVER_GOODS"]));
+            }
+            set {
+                this["DELIVER_GOODS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("//div[@role=\'option\' and @aria-label=\'{0}\']/..")]
+        public string STATE_PARENT {
+            get {
+                return ((string)(this["STATE_PARENT"]));
+            }
+            set {
+                this["STATE_PARENT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("//div[@role=\'option\' and @aria-label=\'{0}\']")]
+        public string STATE_CHILD {
+            get {
+                return ((string)(this["STATE_CHILD"]));
+            }
+            set {
+                this["STATE_CHILD"] = value;
+            }
+        }
     }
 }

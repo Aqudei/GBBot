@@ -8,5 +8,17 @@
     <Setting Name="PASSWORD" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="BROWSER" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CHROME</Value>
+    </Setting>
+    <Setting Name="DELIVER_GOODS" Type="System.String" Scope="User">
+      <Value Profile="(Default)">//div[contains(text(),'deliver goods')]</Value>
+    </Setting>
+    <Setting Name="STATE_PARENT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">//div[@role='option' and @aria-label='{0}']/..</Value>
+    </Setting>
+    <Setting Name="STATE_CHILD" Type="System.String" Scope="User">
+      <Value Profile="(Default)">//div[@role='option' and @aria-label='{0}']</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
