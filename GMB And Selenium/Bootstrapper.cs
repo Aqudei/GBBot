@@ -30,7 +30,8 @@ namespace GMB_And_Selenium
         {
             _container.RegisterSingleton<IEventAggregator, EventAggregator>();
             _container.RegisterSingleton<IWindowManager, WindowManager>();
-
+            _container.RegisterSingleton<PhoneNumberProvider>();
+            
             var config = new MapperConfiguration(cfg => cfg.CreateMap<ProjectData, ProjectItemViewModel>().ReverseMap());
             _container.RegisterInstance(config.CreateMapper());
 

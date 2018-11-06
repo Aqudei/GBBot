@@ -13,6 +13,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
@@ -53,7 +54,7 @@ namespace GMB_And_Selenium.Bot
             _phoneNumberProvider = phoneNumberProvider;
         }
 
-        public void Terminate()
+        public void TerminateWebDriver()
         {
             _logger.Info("Terminating Selenium driver...");
             _driver.Quit();
@@ -211,9 +212,10 @@ namespace GMB_And_Selenium.Bot
             if (!phone.StartsWith("+"))
                 phone = "+" + phone;
 
-            var element = _shortWait.Until(ExpectedConditions.ElementExists(By.XPath("//input[@type='tel']")));
+            var element = _longWait.Until(ExpectedConditions.ElementExists(By.XPath("//input[@type='tel']")));
+            //element.Click();
             element.SendKeys(phone);
-            Thread.Sleep(1000);
+            await Task.Delay(1000);
             ClickNext();
         }
 
@@ -226,32 +228,58 @@ namespace GMB_And_Selenium.Bot
             ClickNext();
         }
 
-        private void ClickNext()
-        {
-            var next = _driver.FindElement(By.XPath("(//div[@role='button']//span[contains(text(),'Next')])[1]"));
-            next.Click();
-            Thread.Sleep(2000);
-        }
 
         private void WaitClickFinish()
         {
-            var next = _longWait.Until(
-                ExpectedConditions.ElementExists(
-                    By.XPath("(//div[@role='button']//span[contains(text(),'Finish')])[1]")));
-            next.Click();
-            Thread.Sleep(2000);
+            try
+            {
+                var finish = _longWait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@role='button']//span[contains(text(),'Finish')]/..")));
+                //next.Click();
+                _driver.ExecuteJavaScript("arguments[0].click();", finish);
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Unable to Click Finish Button");
+                _logger.Error(e);
+                throw;
+            }
+        }
+
+        private void ClickNext()
+        {
+            try
+            {
+                var next = _driver.FindElement(By.XPath("//div[@role='button']//span[contains(text(),'Next')]/.."));
+                //next.Click();
+                _driver.ExecuteJavaScript("arguments[0].click();", next);
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Unable to Click Next");
+                _logger.Error(e);
+                throw;
+            }
         }
 
         private void ClickFinish()
         {
-            var next = _driver.FindElement(By.XPath("(//div[@role='button']//span[contains(text(),'Finish')])[1]"));
-            next.Click();
-            Thread.Sleep(2000);
+            try
+            {
+                var finish = _driver.FindElement(By.XPath("//div[@role='button']//span[contains(text(),'Finish')]/.."));
+                //next.Click();
+                _driver.ExecuteJavaScript("arguments[0].click();", finish);
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Unable to Click Finish Button");
+                _logger.Error(e);
+                throw;
+            }
         }
 
         private void WaitClickNext()
         {
-            var next = _longWait.Until(ExpectedConditions.ElementExists(By.XPath("(//div[@role='button']//span[contains(text(),'Next')])[1]")));
+            var next = _longWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("(//div[@role='button']//span[contains(text(),'Next')])[1]")));
             next.Click();
             Thread.Sleep(2000);
         }
@@ -388,7 +416,7 @@ namespace GMB_And_Selenium.Bot
         {
             try
             {
-                _shortWait.Until(ExpectedConditions.TextToBePresentInElementLocated(By.TagName("p"), "Drag and zoom the map and position the marker on the exact spot where your business is located."));
+                _longWait.Until(ExpectedConditions.TextToBePresentInElementLocated(By.TagName("p"), "Drag and zoom the map and position the marker on the exact spot where your business is located."));
                 ClickNext();
             }
             catch (Exception)
@@ -401,8 +429,9 @@ namespace GMB_And_Selenium.Bot
         {
             try
             {
-                _longWait.Until(ExpectedConditions.TitleContains("Finish and verify this business"));
-                ClickFinish();
+                //_longWait.Until(ExpectedConditions.TitleContains("verify"));
+                //ClickFinish();
+                WaitClickFinish();
             }
             catch (Exception ex)
             {
@@ -428,19 +457,25 @@ namespace GMB_And_Selenium.Bot
                     ProcessBusinessCategoryPage();
                     ProcessContactDetailsPage();
                     ProcessFinishAndVerifyPage();
+                    CheckIfPhoneVerifyTriggered();
+                    break;
                 }
                 catch (PhoneVerifyNotTriggeredException)
-                { }
+                {
+                }
                 catch (Exception ex)
                 {
-                    _logger.Error("Task did not complet!");
-
-                    Terminate();
+                    _logger.Error("Task did not complete!");
+                    TerminateWebDriver();
                     Debug.WriteLine(ex);
-                    //throw;
                     break;
                 }
             }
+        }
+
+        private void CheckIfPhoneVerifyTriggered()
+        {
+            throw new PhoneVerifyNotTriggeredException();
         }
 
         private void ConfirmLocationPages()

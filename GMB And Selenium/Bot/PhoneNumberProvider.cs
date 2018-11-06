@@ -29,7 +29,7 @@ namespace GMB_And_Selenium.Bot
 
         private void FetchNumbers()
         {
-            var response = _api.PhoneNumber.List("US", type: "tollfree");
+            var response = _api.PhoneNumber.List("US", type: "local");
             var numbers = response.ToArray();
             if (!numbers.Any())
                 return;

@@ -61,7 +61,7 @@ namespace GMB_And_Selenium.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("//div[contains(text(),\'deliver goods\')]")]
+        [global::System.Configuration.DefaultSettingValueAttribute("//div[@role=\'checkbox\']")]
         public string DELIVER_GOODS {
             get {
                 return ((string)(this["DELIVER_GOODS"]));

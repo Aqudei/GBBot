@@ -12,7 +12,7 @@
       <Value Profile="(Default)">CHROME</Value>
     </Setting>
     <Setting Name="DELIVER_GOODS" Type="System.String" Scope="User">
-      <Value Profile="(Default)">//div[contains(text(),'deliver goods')]</Value>
+      <Value Profile="(Default)">//div[@role='checkbox']</Value>
     </Setting>
     <Setting Name="STATE_PARENT" Type="System.String" Scope="User">
       <Value Profile="(Default)">//div[@role='option' and @aria-label='{0}']/..</Value>
